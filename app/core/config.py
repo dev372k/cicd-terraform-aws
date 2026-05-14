@@ -2,8 +2,8 @@ from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
-    APP_NAME: str = "Sample fast api"
-    VERSION:str = "1.0.0"
+    APP_NAME: str = "Sample fastapi backend"
+    VERSION:str = "1.0.1"
     ENVIRONMENT: str = "development"
     LOG_LEVEL: str = "INFO"
 
