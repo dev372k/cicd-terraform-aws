@@ -24,7 +24,7 @@ def root():
     logger.info("Root endpoint called")
 
     return {
-        "app": settings.APP_NAME,
+        "name": settings.APP_NAME,
         "version": settings.VERSION,
         "environment": settings.ENVIRONMENT,
     }
