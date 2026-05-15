@@ -59,15 +59,16 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            docker login -u "${{ secrets.DOCKER_USERNAME }}" -p "${{ secrets.DOCKER_PASSWORD }}"
+            script: |
+                docker login -u "${{ secrets.DOCKER_USERNAME }}" -p "${{ secrets.DOCKER_PASSWORD }}"
 
-            docker pull $IMAGE_NAME:$IMAGE_TAG
+                docker pull owais372k/sample-fastapi-backend:${{ github.sha }}
 
-            docker stop sample-fastapi-backend || true
-            docker rm sample-fastapi-backend || true
+                docker stop sample-fastapi-backend || true
+                docker rm sample-fastapi-backend || true
 
-            docker run -d \
-              --name sample-fastapi-backend \
-              -p 80:8000 \
-              --restart always \
-              $IMAGE_NAME:$IMAGE_TAG
+                docker run -d \
+                    --name sample-fastapi-backend \
+                    -p 80:8000 \
+                    --restart always \
+                    owais372k/sample-fastapi-backend:${{ github.sha }}
