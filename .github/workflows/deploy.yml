@@ -58,5 +58,9 @@ jobs:
             docker run -d \
               --name sample-fastapi-backend \
               -p 80:8000 \
+              -e APP_NAME="sample fast api backend" \
+              -e VERSION=1.0.2 \
+              -e ENVIRONMENT=DEV \
+              -e LOG_LEVEL=INFO \
               --restart always \
               owais372k/sample-fastapi-backend:latest
