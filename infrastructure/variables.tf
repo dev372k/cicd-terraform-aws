@@ -1,11 +1,11 @@
 variable "aws_region" {
-    default = "us-east-1"
+  default = "us-east-1"
 }
 
 variable "project_name" {
-    default = "fastapi"
+  default = "fastapi"
 }
 
 variable "container_image" {
-    description = "ECR image URL"
+  description = "ECR image URL"
 }

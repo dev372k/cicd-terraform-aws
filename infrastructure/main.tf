@@ -110,6 +110,25 @@ resource "aws_ecs_task_definition" "app" {
 
       essential = true
 
+      environment = [
+        {
+          name  = "APP_NAME"
+          value = "sample fastapi backend"
+        },
+        {
+          name  = "VERSION"
+          value = "1.0.2"
+        },
+        {
+          name  = "ENVIRONMENT"
+          value = "production"
+        },
+        {
+          name  = "LOG_LEVEL"
+          value = "info"
+        }
+      ]
+
       portMappings = [
         {
           containerPort = 8000
@@ -173,7 +192,7 @@ resource "aws_lb_target_group" "app" {
   target_type = "ip"
 
   health_check {
-    path                = "/"
+    path                = "/health"
     interval            = 30
     timeout             = 5
     healthy_threshold   = 2
