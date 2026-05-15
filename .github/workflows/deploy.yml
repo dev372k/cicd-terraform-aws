@@ -57,6 +57,6 @@ jobs:
 
             docker run -d \
               --name sample-fastapi-backend \
-              -p 80:8080 \
+              -p 80:8000 \
               --restart always \
               owais372k/sample-fastapi-backend:latest
