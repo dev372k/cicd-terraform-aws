@@ -1,17 +1,9 @@
-name: Deploy to ECS
+name: Deploy Docker App
 
 on:
   push:
     branches:
       - main
-
-env:
-  AWS_REGION: ${{ secrets.AWS_REGION }}
-  ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
-  ECS_CLUSTER: ${{ secrets.ECS_CLUSTER }}
-  ECS_SERVICE: ${{ secrets.ECS_SERVICE }}
-  ACCOUNT_ID: ${{ secrets.ACCOUNT_ID }}
-  IMAGE_TAG: ${{ github.sha }}
 
 jobs:
   deploy:
@@ -21,32 +13,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+      - name: Deploy to Ubuntu Server
+        uses: appleboy/ssh-action@v1.2.0
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            docker pull owais372k/sample-fastapi-backend:latest
 
-      - name: Login to Amazon ECR
-        run: |
-          aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+            docker stop myapp || true
+            docker rm myapp || true
 
-      - name: Build Docker image
-        run: |
-          docker build -t $ECR_REPOSITORY:latest .
-
-      - name: Tag image
-        run: |
-          docker tag $ECR_REPOSITORY:latest $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:latest
-
-      - name: Push image to ECR
-        run: |
-          docker push $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:latest
-
-      - name: Force ECS deployment
-        run: |
-          aws ecs update-service \
-            --cluster $ECS_CLUSTER \
-            --service $ECS_SERVICE \
-            --force-new-deployment
+            docker run -d \
+              --name myapp \
+              -p 80:8080 \
+              --restart always \
+              owais372k/sample-fastapi-backend:latest
