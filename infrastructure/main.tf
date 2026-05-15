@@ -125,7 +125,7 @@ resource "aws_ecs_task_definition" "app" {
         },
         {
           name  = "LOG_LEVEL"
-          value = "info"
+          value = "INFO"
         }
       ]
 
