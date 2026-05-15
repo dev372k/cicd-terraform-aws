@@ -22,11 +22,11 @@ jobs:
           script: |
             docker pull owais372k/sample-fastapi-backend:latest
 
-            docker stop myapp || true
-            docker rm myapp || true
+            docker stop sample-fastapi-backend || true
+            docker rm sample-fastapi-backend || true
 
             docker run -d \
-              --name myapp \
+              --name sample-fastapi-backend \
               -p 80:8080 \
               --restart always \
               owais372k/sample-fastapi-backend:latest
