@@ -41,9 +41,18 @@ resource "aws_security_group" "ecs_sg" {
   description = "Allow HTTP traffic"
   vpc_id      = aws_default_vpc.default.id
 
+  # Ingress 1 - Port 8000
   ingress {
     from_port   = 8000
     to_port     = 8000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  # Ingress 2 - Port 80
+  ingress {
+    from_port   = 80
+    to_port     = 80
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
