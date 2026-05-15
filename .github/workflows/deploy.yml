@@ -21,12 +21,13 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-            
+
             docker pull owais372k/sample-fastapi-backend:latest
 
             docker stop sample-fastapi-backend || true
             docker rm sample-fastapi-backend || true
 
+            
             docker run -d \
               --name sample-fastapi-backend \
               -p 80:8080 \
