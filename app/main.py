@@ -25,5 +25,6 @@ def root():
 
     return {
         "app": settings.APP_NAME,
+        "version": settings.VERSION,
         "environment": settings.ENVIRONMENT,
     }
