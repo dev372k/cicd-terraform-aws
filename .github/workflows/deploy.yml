@@ -55,11 +55,11 @@ jobs:
       - name: Deploy to Ubuntu Server
         uses: appleboy/ssh-action@v1.2.0
         with:
-          host: $SERVER_HOST
-          username: $SERVER_USER
-          key: $SERVER_SSH_KEY
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+            docker login -u "${{ secrets.DOCKER_USERNAME }}" -p "${{ secrets.DOCKER_PASSWORD }}"
 
             docker pull $IMAGE_NAME:$IMAGE_TAG
 
@@ -69,9 +69,5 @@ jobs:
             docker run -d \
               --name sample-fastapi-backend \
               -p 80:8000 \
-              -e APP_NAME="sample fast api backend" \
-              -e VERSION=$IMAGE_TAG \
-              -e ENVIRONMENT=DEV \
-              -e LOG_LEVEL=INFO \
               --restart always \
               $IMAGE_NAME:$IMAGE_TAG
