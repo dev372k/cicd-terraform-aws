@@ -72,3 +72,4 @@ jobs:
                     -p 80:8000 \
                     --restart always \
                     owais372k/sample-fastapi-backend:${{ github.sha }}
+                    
