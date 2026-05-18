@@ -17,25 +17,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # ----------------------------
-      # SETUP BUILDX
-      # ----------------------------
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      # ----------------------------
-      # LOGIN TO DOCKER HUB
-      # ----------------------------
       - name: Login to Docker Hub
         run: |
           echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-      # ----------------------------
-      # BUILD & PUSH
-      # ----------------------------
       - name: Build and Push Docker Image
         run: |
           docker buildx build \
@@ -44,9 +35,6 @@ jobs:
             -t $IMAGE_NAME:$IMAGE_TAG \
             --push .
 
-      # ----------------------------
-      # DEPLOY
-      # ----------------------------
       - name: Deploy to Ubuntu Server
         uses: appleboy/ssh-action@v1.2.0
         with:
@@ -62,11 +50,8 @@ jobs:
               docker rm sample-fastapi-backend || true
 
               docker run -d \
-                  --name sample-fastapi-backend \
-                  -p 80:8000 \
-                  -e APP_NAME="sample backend server" \
-                  -e VERSION=1.0.6 \
-                  -e ENVIRONMENT=DEV \
-                  -e LOG_LEVEL=INFO \
-                  --restart always \
-                  owais372k/sample-fastapi-backend:${{ github.sha }}
+                --name sample-fastapi-backend \
+                --env-file /home/ubuntu/.env \
+                -p 80:8000 \
+                --restart always \
+                owais372k/sample-fastapi-backend:${{ github.sha }}
