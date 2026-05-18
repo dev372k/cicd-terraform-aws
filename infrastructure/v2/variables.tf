@@ -3,17 +3,17 @@ variable "aws_region" {
 }
 
 variable "instance_type" {
-  default = "t3.micro"
+  description = ""
 }
 
 variable "ami" {
-  description = "Ubuntu AMI"
+  description = ""
 }
 
 variable "key_name" {
-  description = "EC2 key pair name"
+  description = ""
 }
 
 variable "security_group_id" {
-  description = "Security group allowing SSH + port 3030"
+  description = ""
 }

@@ -1,5 +1,5 @@
 # ---------------- EC2 INSTANCES ----------------
-resource "aws_instance" "sample_backedn" {
+resource "aws_instance" "sample_backend" {
   ami           = var.ami
   instance_type = var.instance_type
   key_name      = var.key_name
