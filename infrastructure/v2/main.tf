@@ -21,14 +21,14 @@ resource "aws_instance" "sample_backend" {
               usermod -aG docker ubuntu
 
               # Create env file
-              cat > .env <<EOL
+              cat > /home/ubuntu/.env <<EOL
               APP_NAME=sample backend server
               VERSION=1.0.6
               ENVIRONMENT=DEV
               LOG_LEVEL=INFO
               EOL
 
-              chown ubuntu:ubuntu .env
+              chown ubuntu:ubuntu /home/ubuntu/.env
               EOF
 
   tags = {
