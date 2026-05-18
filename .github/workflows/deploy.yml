@@ -3,7 +3,7 @@ name: Deploy Docker App
 on:
   push:
     branches:
-      - main
+      - develop
 
 env:
   IMAGE_NAME: owais372k/sample-fastapi-backend
