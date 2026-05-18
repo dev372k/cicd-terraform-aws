@@ -51,7 +51,7 @@ jobs:
 
               docker run -d \
                 --name sample-fastapi-backend \
-                --env-file prod.env \
+                --env-file .env \
                 -p 80:8000 \
                 --restart always \
                 owais372k/sample-fastapi-backend:${{ github.sha }}
